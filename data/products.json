@@ -1,0 +1,47 @@
+[
+  {
+    "id": "P1684606908173",
+    "nama": "Indomie",
+    "harga": 3500,
+    "barcode": "ef1f03fb7760d",
+    "stock": 24,
+    "tipe": "Makanan",
+    "image": "/images/P1684606908173.jpg"
+  },
+  {
+    "id": "P1684607057595",
+    "nama": "Kopiko",
+    "harga": 9000,
+    "barcode": "606098ed0bee3",
+    "stock": 5,
+    "tipe": "Makanan",
+    "image": "/images/P1684607057595.jpg"
+  },
+  {
+    "id": "P1684607759963",
+    "nama": "Tolak Angin",
+    "harga": 4500,
+    "barcode": "5c6230fe9e311",
+    "stock": 30,
+    "tipe": "Minuman",
+    "image": "/images/P1684607759963.jpg"
+  },
+  {
+    "id": "P1684607806572",
+    "nama": "SilverQueen",
+    "harga": 26000,
+    "barcode": "e49dafeb7dcc9",
+    "stock": 13,
+    "tipe": "Makanan",
+    "image": "/images/P1684607806572.jpg"
+  },
+  {
+    "id": "P1684607850500",
+    "nama": "Donat J.Co",
+    "harga": 30000,
+    "barcode": "ac0dd1d1a6304",
+    "stock": 4,
+    "tipe": "Makanan",
+    "image": "/images/P1684607850500.jpg"
+  }
+]

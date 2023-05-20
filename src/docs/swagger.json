@@ -1,0 +1,602 @@
+{
+  "swagger": "2.0.0",
+  "info": {
+    "version": "1.0",
+    "title": "Productzilla Take Home Task Day 29"
+  },
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": ["Login"],
+        "summary": "Login ke akun yang telah tersedia untuk mendapatkan token auth",
+        "parameters": [
+          {
+            "name": "account",
+            "in": "body",
+            "description": "Credentials untuk login. Gunakan username=admin dan password=admin",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": { "type": "string", "example": "admin" },
+                "password": { "type": "string", "example": "admin" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Berhasil login dan mendapatkan token auth",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": { "type": "string", "example": "Login success." },
+                "error": { "type": "boolean", "example": false }
+              }
+            }
+          },
+          "400": {
+            "description": "Permintaan tidak valid (missing required field)",
+            "schema": {
+              "$ref": "#/components/schemas/BadRequestResponse"
+            }
+          },
+          "403": {
+            "description": "Username atau password yang dimasukkan tidak valid",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": { "type": "string", "example": "Invalid credentials!." },
+                "status": { "type": "integer", "example": 403 },
+                "error": { "type": "boolean", "example": true }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Mendapatkan seluruh data products",
+        "responses": {
+          "200": {
+            "description": "Berhasil mendapatkan seluruh data products",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "products": {
+                  "type": "array",
+                  "example": [
+                    {
+                      "id": "P1684606908173",
+                      "nama": "Indomie",
+                      "harga": 3500,
+                      "barcode": "ef1f03fb7760d",
+                      "stock": 24,
+                      "tipe": "Makanan",
+                      "image": "http://localhost:3000/images/P1684606908173.jpg"
+                    },
+                    {
+                      "id": "P1684607057595",
+                      "nama": "Kopiko",
+                      "harga": 9000,
+                      "barcode": "606098ed0bee3",
+                      "stock": 5,
+                      "tipe": "Makanan",
+                      "image": "http://localhost:3000/images/P1684607057595.jpg"
+                    }
+                  ]
+                },
+                "error": { "type": "boolean", "example": false }
+              }
+            }
+          },
+          "500": {
+            "description": "Error dari server",
+            "schema": {
+              "$ref": "#/components/schemas/InternalServerErrorResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Products"],
+        "summary": "Menambahkan data products baru",
+        "parameters": [
+          {
+            "name": "nama",
+            "in": "formData",
+            "description": "Nama produk",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "harga",
+            "in": "formData",
+            "description": "Harga produk",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "stock",
+            "in": "formData",
+            "description": "Stok produk",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "tipe",
+            "in": "formData",
+            "description": "Tipe produk",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "image",
+            "in": "formData",
+            "description": "Gambar produk",
+            "required": true,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Data berhasil ditambahkan",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "new_data": {
+                  "type": "object",
+                  "example": {
+                    "id": "P1684607008290",
+                    "nama": "Coca-Cola",
+                    "harga": 6000,
+                    "barcode": "fb1b90eb7760d",
+                    "stock": 5,
+                    "tipe": "Minuman",
+                    "image": "http://localhost:3000/images/P1684607008290.jpg"
+                  }
+                },
+                "error": { "type": "boolean", "example": false }
+              }
+            }
+          },
+          "400": {
+            "description": "Permintaan tidak valid (missing required field)",
+            "schema": {
+              "$ref": "#/components/schemas/BadRequestResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/components/schemas/UnauthorizedResponse"
+            }
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Mendapatkan satu data products berdasarkan ID pada params",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID products",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Berhasil mendapatkan satu data products berdasarkan ID pada params",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string", "example": "P1684606908173" },
+                "nama": { "type": "string", "example": "Indomie" },
+                "harga": { "type": "integer", "example": 3500 },
+                "barcode": { "type": "string", "example": "ef1f03fb7760d" },
+                "stock": { "type": "integer", "example": "24" },
+                "tipe": { "type": "string", "example": "Makanan" },
+                "image": { "type": "string", "example": "http://localhost:3000/images/P1684606908173.jpg" }
+              }
+            }
+          },
+          "404": {
+            "description": "Tidak dapat menemukan data products dengan ID yang telah diberikan",
+            "schema": {
+              "$ref": "#/components/schemas/NotFoundResponse"
+            }
+          },
+          "500": {
+            "description": "Error dari server",
+            "schema": {
+              "$ref": "#/components/schemas/InternalServerErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Products"],
+        "summary": "Melakukan update satu data products berdasarkan ID pada params",
+        "parameters": [
+          { "name": "id", "in": "path", "description": "ID products", "required": true, "type": "string" },
+          {
+            "name": "nama",
+            "in": "formData",
+            "description": "Nama produk",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "harga",
+            "in": "formData",
+            "description": "Harga produk",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "stock",
+            "in": "formData",
+            "description": "Stok produk",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "tipe",
+            "in": "formData",
+            "description": "Tipe produk",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "image",
+            "in": "formData",
+            "description": "Gambar produk",
+            "required": true,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Data berhasil diupdate",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "updated_data": {
+                  "type": "object",
+                  "example": {
+                    "id": "P1684606908173",
+                    "nama": "Indomie Goreng Aceh",
+                    "harga": 4000,
+                    "barcode": "ef1f03fb7760d",
+                    "stock": 200,
+                    "tipe": "Makanan",
+                    "image": "http://localhost:3000/images/P1684606908173.jpg"
+                  }
+                },
+                "error": { "type": "boolean", "example": false }
+              }
+            }
+          },
+          "400": {
+            "description": "Permintaan tidak valid (missing required field)",
+            "schema": {
+              "$ref": "#/components/schemas/BadRequestResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/components/schemas/UnauthorizedResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Products"],
+        "summary": "Menghapus satu data products berdasarkan ID pada params",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID products",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Berhasil menghapus satu data products berdasarkan ID pada params",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": { "type": "string", "example": "OK!" },
+                "error": { "type": "boolean", "example": false }
+              }
+            }
+          },
+          "404": {
+            "description": "Tidak dapat menemukan data products dengan ID yang telah diberikan",
+            "schema": {
+              "$ref": "#/components/schemas/NotFoundResponse"
+            }
+          },
+          "500": {
+            "description": "Error dari server",
+            "schema": {
+              "$ref": "#/components/schemas/InternalServerErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/employees": {
+      "get": {
+        "tags": ["Employees"],
+        "summary": "Mendapatkan seluruh data employees",
+        "responses": {
+          "200": {
+            "description": "Berhasil mendapatkan seluruh data employees",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "employees": {
+                  "type": "array",
+                  "example": [
+                    {
+                      "id": "E1684608565829",
+                      "nama": "Lex De Haan",
+                      "alamat": "California",
+                      "usia": 26,
+                      "jenis_kelamin": "Pria"
+                    },
+                    {
+                      "id": "E1684608631570",
+                      "nama": "Alexander Hunold",
+                      "alamat": "Washington",
+                      "usia": 32,
+                      "jenis_kelamin": "Pria"
+                    }
+                  ]
+                },
+                "error": { "type": "boolean", "example": false }
+              }
+            }
+          },
+          "500": {
+            "description": "Error dari server",
+            "schema": {
+              "$ref": "#/components/schemas/InternalServerErrorResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Employees"],
+        "summary": "Menambahkan data employees baru",
+        "parameters": [
+          {
+            "name": "new_data",
+            "in": "body",
+            "description": "Data employees yang akan ditambahkan",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nama": { "type": "string", "example": "Michael Rogers" },
+                "alamat": { "type": "string", "example": "Tokyo" },
+                "usia": { "type": "string", "example": "32" },
+                "jenis_kelamin": {
+                  "type": "string",
+                  "example": "Pria"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Data berhasil ditambahkan",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "new_data": {
+                  "type": "object",
+                  "example": { "id": "E1684609294710", "nama": "Michael Rogers", "alamat": "Tokyo", "usia": 32, "jenis_kelamin": "Pria" }
+                },
+                "error": { "type": "boolean", "example": false }
+              }
+            }
+          },
+          "400": {
+            "description": "Permintaan tidak valid (missing required field)",
+            "schema": {
+              "$ref": "#/components/schemas/BadRequestResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/components/schemas/UnauthorizedResponse"
+            }
+          }
+        }
+      }
+    },
+    "/employees/{id}": {
+      "get": {
+        "tags": ["Employees"],
+        "summary": "Mendapatkan satu data employees berdasarkan ID pada params",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID employees",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Berhasil mendapatkan satu data employees berdasarkan ID pada params",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string", "example": "E1684608565829" },
+                "nama": { "type": "string", "example": "Lex De Haan" },
+                "alamat": { "type": "integer", "example": "California" },
+                "usia": { "type": "integer", "example": 26 },
+                "jenis_kelamin": { "type": "string", "example": "Pria" }
+              }
+            }
+          },
+          "404": {
+            "description": "Tidak dapat menemukan data employees dengan ID yang telah diberikan",
+            "schema": {
+              "$ref": "#/components/schemas/NotFoundResponse"
+            }
+          },
+          "500": {
+            "description": "Error dari server",
+            "schema": {
+              "$ref": "#/components/schemas/InternalServerErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Employees"],
+        "summary": "Melakukan update satu data employees berdasarkan ID pada params",
+        "parameters": [
+          { "name": "id", "in": "path", "description": "ID employees", "required": true, "type": "string" },
+          {
+            "name": "update_data",
+            "in": "body",
+            "description": "Data employees yang akan diupdate",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nama": { "type": "string" },
+                "alamat": { "type": "string" },
+                "usia": { "type": "string" },
+                "jenis_kelamin": {
+                  "type": "string",
+                  "examples": {
+                    "example1": { "value": "pria" },
+                    "example2": { "value": "wanita" }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Data berhasil diupdate",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "updated_data": {
+                  "type": "object",
+                  "example": { "id": "E1684608565829", "nama": "Lex Luthor", "alamat": "Gotham City", "usia": 37, "jenis_kelamin": "Pria" }
+                },
+                "error": { "type": "boolean", "example": false }
+              }
+            }
+          },
+          "400": {
+            "description": "Permintaan tidak valid (missing required field)",
+            "schema": {
+              "$ref": "#/components/schemas/BadRequestResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/components/schemas/UnauthorizedResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Employees"],
+        "summary": "Menghapus satu data employees berdasarkan ID pada params",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID employees",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Berhasil menghapus satu data employees berdasarkan ID pada params",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": { "type": "string", "example": "OK!" },
+                "error": { "type": "boolean", "example": false }
+              }
+            }
+          },
+          "404": {
+            "description": "Tidak dapat menemukan data employees dengan ID yang telah diberikan",
+            "schema": {
+              "$ref": "#/components/schemas/NotFoundResponse"
+            }
+          },
+          "500": {
+            "description": "Error dari server",
+            "schema": {
+              "$ref": "#/components/schemas/InternalServerErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BadRequestResponse": {
+        "type": "object",
+        "properties": {
+          "message": { "type": "string", "example": "Bad request!." },
+          "status": { "type": "integer", "example": 400 },
+          "error": { "type": "string", "example": true }
+        }
+      },
+      "InternalServerErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": { "type": "string", "example": "Something went wrong! :(." },
+          "status": { "type": "integer", "example": 500 },
+          "error": { "type": "string", "example": true }
+        }
+      },
+      "UnauthorizedResponse": {
+        "type": "object",
+        "properties": {
+          "message": { "type": "string", "example": "Unauthorized!." },
+          "status": { "type": "integer", "example": 401 },
+          "error": { "type": "string", "example": true }
+        }
+      },
+      "NotFoundResponse": {
+        "type": "object",
+        "properties": {
+          "message": { "type": "string", "example": "Not found!." },
+          "status": { "type": "integer", "example": 404 },
+          "error": { "type": "string", "example": true }
+        }
+      }
+    }
+  }
+}

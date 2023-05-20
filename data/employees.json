@@ -1,0 +1,37 @@
+[
+  {
+    "id": "E1684608565829",
+    "nama": "Lex De Haan",
+    "alamat": "California",
+    "usia": 26,
+    "jenis_kelamin": "Pria"
+  },
+  {
+    "id": "E1684608631570",
+    "nama": "Alexander Hunold",
+    "alamat": "Washington",
+    "usia": 32,
+    "jenis_kelamin": "Pria"
+  },
+  {
+    "id": "E1684608725846",
+    "nama": "Adam Fripp",
+    "alamat": "San Diego",
+    "usia": 29,
+    "jenis_kelamin": "Pria"
+  },
+  {
+    "id": "E1684608781472",
+    "nama": "Julia Nayer",
+    "alamat": "Jakarta",
+    "usia": 30,
+    "jenis_kelamin": "Wanita"
+  },
+  {
+    "id": "E1684608848993",
+    "nama": "John Doe",
+    "alamat": "New York",
+    "usia": 35,
+    "jenis_kelamin": "Pria"
+  }
+]
